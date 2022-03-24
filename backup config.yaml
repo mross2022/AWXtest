@@ -10,6 +10,7 @@
      register: config
 
    - name: save output to /etc/ansible/backups 
+     remote_user: awx
      copy: 
        content: "{{ config.stdout[0] }}"
-       dest: "/var/lib/awx/projects/backups/show_run_{{ inventory_hostname }}.txt"
+       dest: "/tmp/show_run_{{ inventory_hostname }}.txt"

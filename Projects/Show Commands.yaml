@@ -11,7 +11,7 @@
           - "show ip route"
       register: show_output
 
-  - name: save collected infromation
+    - name: save collected infromation
     copy:
       content: "{{ show_output.stdout[item.index] }}"
       dest: "{{ item.filename }}"

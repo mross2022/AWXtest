@@ -3,27 +3,14 @@
   hosts: Lakin-Correctional
   connection: network_cli
   tasks:
-    - name: Show commands being sent for Cisco Devices
+    - name: show run 
       ios_command:
         commands:
-          - "show version"
-          - "show ip interface brief"
-          - "show ip route"
-      register: show_output
+        - show run 
+        host: "{{ ansible_host }}"
+        register: config
 
-    - name: save collected infromation
-      copy:
-        content: "{{ show_output.stdout[item.index] }}"
-        dest: "{{ item.filename }}"
-      loop_control:
-        label: "{{ item.name }}"
-      loop:
-      - name: show version
-        index: 0
-        filename: "/var/lib/awx/projects/backups/{{ inventory_hostname }}_shver.txt"
-      - name: show ip interface brief
-        index: 1
-        filename: "/var/lib/awx/projects/backups/{{ inventory_hostname }}_shipinterface.txt"
-      - name: show ip route
-        index: 2
-        filename: "/var/lib/awx/projects/backups/{{ inventory_hostname }}_shiproute.txt"
+    - name: save output to /etc/ansible/backups 
+      copy: 
+        content: "{{ config.stdout[0] }}"
+        dest: "/var/lib/awx/projects/backups/show_run_{{ inventory_hostname }}.txt"

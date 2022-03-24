@@ -1,13 +1,15 @@
 ---
 - name: Show Cisco
   hosts: Lakin-Correctional
-  connection: ansible.netcommon.network_cli
-  tasks:      
-      
-    - name: configurable backup path
-      cisco.ios.ios_config:
-        src: ios_template.j2
-        backup: yes
-      backup_options:
-        filename: backup.cfg
-        dir_path: /home/runner/backups
+  connection: network_cli
+  tasks:
+   - name: show run 
+     ios_command:
+       commands:
+         - show run   
+     register: config
+
+   - name: save output to /etc/ansible/backups 
+     copy: 
+       content: "{{ config.stdout[0] }}"
+       dest: "/home/runner/backups/show_run_{{ inventory_hostname }}.txt"

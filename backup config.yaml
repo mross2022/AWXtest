@@ -13,4 +13,4 @@
      remote_user: awx
      copy: 
        content: "{{ config.stdout[0] }}"
-       dest: "/backups/show_run_{{ inventory_hostname }}.txt"
+       dest: "/tmp/backups/show_run_{{ inventory_hostname }}.txt"

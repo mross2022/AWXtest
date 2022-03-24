@@ -1,0 +1,29 @@
+---
+- name: Show Cisco
+  hosts: Corrections-Routers
+  connection: network_cli
+  tasks:
+    - name: Show commands being sent for Cisco Devices
+      ios_command:
+        commands:
+          - "show version"
+          - "show ip interface brief"
+          - "show ip route"
+      register: show_output
+
+  - name: save collected infromation
+    copy:
+      content: "{{ show_output.stdout[item.index] }}"
+      dest: "{{ item.filename }}"
+    loop_control:
+      label: "{{ item.name }}"
+    loop:
+    - name: show version
+      index: 0
+      filename: "/var/lib/awx/backups/{{ inventory_hostname }}_shver.txt"
+    - name: show ip interface brief
+      index: 1
+      filename: "/var/lib/awx/backups/{{ inventory_hostname }}_shipinterface.txt"
+    - name: show ip route
+      index: 2
+      filename: "/var/lib/awx/backups/{{ inventory_hostname }}_shiproute.txt"

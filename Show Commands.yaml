@@ -1,6 +1,6 @@
 ---
 - name: Show Cisco
-  hosts: Corrections-Routers
+  hosts: Routers-Corrections
   connection: network_cli
   tasks:
     - name: Show commands being sent for Cisco Devices

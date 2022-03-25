@@ -13,7 +13,4 @@
      copy: 
        content: "{{ config.stdout[0] }}"
        dest: "/var/lib/projects/show_run_{{ inventory_hostname }}.txt"
-        
-        
-
   
